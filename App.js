@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import Box from './Box';
+import Border from './Border';
 import { Dimensions, StyleSheet, StatusBar } from 'react-native';
 import Matter from "matter-js";
 import { GameEngine } from "react-native-game-engine";
@@ -16,6 +17,7 @@ const { width, height } = Dimensions.get("screen");
 const boxSize = Math.trunc(Math.max(width, height) * 0.075);
 const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
 const floor = Matter.Bodies.rectangle(width / 2, height - boxSize / 2, width, boxSize, { isStatic: true });
+const top = Matter.Bodies.rectangle(width / 2, 0 + boxSize / 2, width, boxSize, { isStatic: true });
 
 const engine = Matter.Engine.create({ enableSleeping: false });
 const world = engine.world;
@@ -64,13 +66,19 @@ export default class App extends Component {
           initialBox: {
             body: initialBox,
             size: [boxSize, boxSize],
-            renderer: Box
+            renderer: Box,
           },
           floor: {
             body: floor,
             size: [width, boxSize],
             color: "#EAEDED",
-            renderer: Box
+            renderer: Border
+          },
+          top: {
+            body: top,
+            size: [width, boxSize],
+            color: "#EAEDED",
+            renderer: Border
           }
         }} >
         <StatusBar hidden={true} />
